@@ -1,0 +1,60 @@
+*, *:before, *:after {
+    -webkit-box-sizing: border-box; 
+    -moz-box-sizing: border-box; 
+    box-sizing: border-box;
+}
+
+.container {
+    width: 78%;
+    margin: 0 auto;
+    padding: 0px;
+    position: relative;
+}
+h1{
+    font-family: 'Merriweather', serif;;
+    font-size: 28px;
+    font-weight: normal;
+}
+h2{
+    font-family: 'Roboto', sans-serif;
+    font-size: 40px;
+    font-weight: normal;
+}
+h3{
+    font-family: 'Roboto', sans-serif;
+    font-size: 23px;
+    font-weight: normal;
+}
+h4{
+    font-family: 'Roboto', sans-serif;
+    font-size: 20px;
+    font-weight: normal;
+}
+h5{
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    font-weight: normal;
+}
+h6{
+    font-family: 'Roboto', sans-serif;
+    font-size: 13px;
+    font-weight: normal;
+}
+button{
+    cursor: pointer;
+    background: transparent;
+    border: none;
+}
+input{
+    border: 1px solid #D5D5D5;
+    border-radius: 5px;
+    width: 303px;
+    height: 45px;
+    margin-bottom: 5px;
+}
+input::placeholder{
+    font-family: 'Roboto', sans-serif;
+    font-size: 20px;
+    color: #DBDBDB;
+    padding: 5px;
+}
