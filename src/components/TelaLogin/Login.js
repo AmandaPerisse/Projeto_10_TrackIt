@@ -5,12 +5,12 @@ import Logo from "./Logo";
 import Form from "./Form";
 import Cadastrar from "./Cadastrar";
 
-export default function Login({ setToken }){
+export default function Login({ setToken, setId, setName, setImage }){
 
     return (
         <Alinhar>
             <Logo />
-            <Form setToken = {setToken} />
+            <Form setToken = {setToken} setId = {setId} setName = {setName} setImage = {setImage} />
             <Cadastrar />
         </Alinhar>
     );

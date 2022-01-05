@@ -58,3 +58,7 @@ input::placeholder{
     color: #DBDBDB;
     padding: 5px;
 }
+.CircularProgressbar {
+    margin-bottom: 1px;
+    margin-left: 4px;
+}

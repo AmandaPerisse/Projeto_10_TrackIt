@@ -7,18 +7,23 @@ import './styles/style.css';
 
 import Login from './components/TelaLogin/Login';
 import Cadastro from './components/TelaCadastro/Cadastro';
-import Habitos from './components/TelaHoje/Hoje';
+import Hoje from './components/TelaHoje/Hoje';
+import Habitos from './components/TelaHabitos/Habitos';
 
 function App() {
     
     const [token, setToken] = React.useState('');
+    const [id, setId] = React.useState('');
+    const [name, setName] = React.useState('');
+    const [image, setImage] = React.useState('');
 
     return (
         <BrowserRouter>
 			<Routes>
-                <Route path="/" element={<Login setToken = {setToken} />}></Route>
+                <Route path="/" element={<Login setToken = {setToken} setId = {setId} setName = {setName} setImage = {setImage} />}></Route>
                 <Route path="/cadastro" element={<Cadastro />}></Route>
-                <Route path="/hoje" element={<Habitos token = {token} />}></Route>
+                <Route path="/hoje" element={<Hoje token = {token} id = {id} name = {name} image = {image}/>}></Route>
+                <Route path="/habitos" element={<Habitos token = {token} id = {id} name = {name} image = {image}/>}></Route>
             </Routes>
 		</BrowserRouter>
     );

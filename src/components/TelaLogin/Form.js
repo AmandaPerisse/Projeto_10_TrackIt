@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router';
 
 import Esferas from "./Esferas";
 
-export default function Form({ setToken }){
+export default function Form({ setToken, setId, setName, setImage }){
 
     const [email, setEmail] = React.useState('');
     const [senha, setSenha] = React.useState('');
@@ -25,6 +25,9 @@ export default function Form({ setToken }){
             setDesabilitado('');
             setAparecer('block');
             setToken(response.data.token);
+            setId(response.data.id);
+            setName(response.data.name);
+            setImage(response.data.image);
             navigate('/hoje');
         });
         promise.catch(error => {
