@@ -1,6 +1,8 @@
 import axios from 'axios';
 import React from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router';
+
 
 import Esferas from "./Esferas";
 
@@ -11,10 +13,11 @@ export default function Form(){
     const [nome, setNome] = React.useState('');
     const [imagem, setImagem] = React.useState('');
     const [desabilitado, setDesabilitado] = React.useState('');
+    const [aparecer, setAparecer] = React.useState('block');
 
+    const navigate = useNavigate();
     function cadastrando(e){
         e.preventDefault();
-
         const promise = axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up', {
             email: email,
             name: nome,
@@ -22,19 +25,32 @@ export default function Form(){
             password: senha
         });
         setDesabilitado('disabled');
-        promise.then(response => console.log(response),);
-        promise.catch(error => console.log(error.response));
+        setAparecer('none');
+        promise.then(response => {
+            setDesabilitado('');
+            setAparecer('block');
+            navigate('/');
+        });
+        promise.catch(error => {
+            alert('Falha na criação do usuário!');
+            setDesabilitado('');
+            setAparecer('block');
+            setEmail('');
+            setSenha('');
+            setNome('');
+            setImagem('');
+        });
     }
 
     return (
         
         <>
             <Formulario onSubmit = {cadastrando}>
-                <input {...desabilitado} type="email" onChange = {(e) => setEmail(e.target.value)} value = {email} placeholder='email'/>
-                <input {...desabilitado} type="password" onChange = {(e) => setSenha(e.target.value)} value = {senha} placeholder='senha'/>
-                <input {...desabilitado} type="text" onChange = {(e) => setNome(e.target.value)} value = {nome} placeholder='nome' />
-                <input {...desabilitado} type="text" onChange = {(e) => setImagem(e.target.value)} value = {imagem} placeholder='imagem' />
-                <Botao {...desabilitado} type="submit">
+                <input disabled = {desabilitado} type="email" onChange = {(e) => setEmail(e.target.value)} value = {email} placeholder='email'/>
+                <input disabled = {desabilitado} type="password" onChange = {(e) => setSenha(e.target.value)} value = {senha} placeholder='senha'/>
+                <input disabled = {desabilitado} type="text" onChange = {(e) => setNome(e.target.value)} value = {nome} placeholder='nome' />
+                <input disabled = {desabilitado} type="text" onChange = {(e) => setImagem(e.target.value)} value = {imagem} placeholder='imagem' />
+                <Botao aparecer = {aparecer} disabled = {desabilitado} type="submit">
                     <h4>Cadastrar</h4>
                     <Esferas escondido = {desabilitado} />
                 </Botao>
@@ -54,5 +70,6 @@ const Botao = styled.button`
     border-radius: 4.63636px;
     h4{
         color: white;
+        display: ${props => props.aparecer}
     }
 `;

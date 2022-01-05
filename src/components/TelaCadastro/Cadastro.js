@@ -15,7 +15,7 @@ export default function Cadastro(){
         </Alinhar>
     );
 }
-const Alinhar = styled.form`
+const Alinhar = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;

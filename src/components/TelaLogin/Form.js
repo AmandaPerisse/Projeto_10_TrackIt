@@ -1,29 +1,51 @@
-import React from 'react';
 import axios from 'axios';
+import React from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router';
 
-export default function Form(){
+import Esferas from "./Esferas";
+
+export default function Form({ setToken }){
 
     const [email, setEmail] = React.useState('');
     const [senha, setSenha] = React.useState('');
+    const [desabilitado, setDesabilitado] = React.useState('');
+    const [aparecer, setAparecer] = React.useState('block');
 
-    function logando(e){
+    const navigate = useNavigate();
+    function cadastrando(e){
         e.preventDefault();
         const promise = axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login', {
             email: email,
-            senha: senha
+            password: senha
         });
-        promise.then();
-        promise.catch();
+        setDesabilitado('disabled');
+        setAparecer('none');
+        promise.then(response => {
+            setDesabilitado('');
+            setAparecer('block');
+            setToken(response.data.token);
+            navigate('/hoje');
+        });
+        promise.catch(error => {
+            alert('Falha na autenticação!');
+            setDesabilitado('');
+            setAparecer('block');
+            setEmail('');
+            setSenha('');
+        });
     }
 
     return (
-
+        
         <>
-            <Formulario onSubmit = {logando}>
-                <input type="email" onChange = {(e) => setEmail(e.target.value)} value = {email} placeholder='email'/>
-                <input type="password" onChange = {(e) => setSenha(e.target.value)} value = {senha} placeholder='senha'/>
-                <Botao type="submit"><h4>Entrar</h4></Botao>
+            <Formulario onSubmit = {cadastrando}>
+                <input disabled = {desabilitado} type="email" onChange = {(e) => setEmail(e.target.value)} value = {email} placeholder='email'/>
+                <input disabled = {desabilitado} type="password" onChange = {(e) => setSenha(e.target.value)} value = {senha} placeholder='senha'/>
+                <Botao aparecer = {aparecer} disabled = {desabilitado} type="submit">
+                    <h4>Entrar</h4>
+                    <Esferas escondido = {desabilitado} />
+                </Botao>
             </Formulario>
         </>
     );
@@ -40,5 +62,6 @@ const Botao = styled.button`
     border-radius: 4.63636px;
     h4{
         color: white;
+        display: ${props => props.aparecer}
     }
 `;

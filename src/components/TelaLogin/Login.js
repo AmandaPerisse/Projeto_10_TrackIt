@@ -5,17 +5,17 @@ import Logo from "./Logo";
 import Form from "./Form";
 import Cadastrar from "./Cadastrar";
 
-export default function Login(){
+export default function Login({ setToken }){
 
     return (
         <Alinhar>
             <Logo />
-            <Form />
+            <Form setToken = {setToken} />
             <Cadastrar />
         </Alinhar>
     );
 }
-const Alinhar = styled.form`
+const Alinhar = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
