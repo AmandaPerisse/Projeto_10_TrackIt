@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router';
 
 
-import Esferas from "./Esferas";
+import Esferas from "../Global/Esferas";
 
 export default function Form(){
 

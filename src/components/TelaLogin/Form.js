@@ -3,7 +3,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router';
 
-import Esferas from "./Esferas";
+import Esferas from "../Global/Esferas";
 
 export default function Form({ setToken, setId, setName, setImage }){
 

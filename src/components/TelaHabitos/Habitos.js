@@ -2,8 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { Link } from "react-router-dom";
 
-import Logo from "../TelaHoje/Logo";
-import Rodape from "../TelaHoje/Rodape";
+import Logo from "../Global/Logo";
+import Rodape from "../Global/Rodape";
 import Conteudo from "./Conteudo";
 
 export default function Habitos({ token, id, name, image }){
@@ -16,7 +16,7 @@ export default function Habitos({ token, id, name, image }){
                     <img src = {image} alt = "Usuario" />
                 </Usuario>
             </Cabecalho>
-            <Conteudo />
+            <Conteudo token = {token}/>
             <Rodape />
         </Corpo>
     );

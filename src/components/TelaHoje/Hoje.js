@@ -2,8 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { Link } from "react-router-dom";
 
-import Logo from "./Logo";
-import Rodape from "./Rodape";
+import Logo from "../Global/Logo";
+import Rodape from "../Global/Rodape";
 
 export default function Habitos({ token, id, name, image }){
 
