@@ -29,7 +29,7 @@ const EsferasCompleto = styled.div`
 const Esfera1 = styled.div`
 	background-color: white;
     border-radius: 100%;
-    animation: esfera1 1s linear infinite;
+    animation: esfera1 0.5s linear infinite;
     @keyframes esfera1 {
         0% {
             width: 15px;
@@ -51,7 +51,7 @@ const Esfera1 = styled.div`
 const Esfera2 = styled.div`
 	background-color: white;
     border-radius: 100%;
-    animation: esfera2 1s linear infinite;
+    animation: esfera2 0.5s linear infinite;
     @keyframes esfera2 {
         0% {
             width: 10px;

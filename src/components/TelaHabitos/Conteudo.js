@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { Link } from "react-router-dom";
 import axios from 'axios';
 
-import Habitos from './ListaHabitos';
 import Form from './Form';
 
 export default function Conteudo({ token }){
@@ -11,8 +10,8 @@ export default function Conteudo({ token }){
     const [id, setId] = React.useState('');
     const [nome, setNome] = React.useState('');
     const [dias, setDias] = React.useState('');
-    const [listaHabitos, setListaHabitos] = React.useState('');
-    const [aparecerMensagem, setAparecerMensagem] = React.useState('');
+    const [listaHabitos, setListaHabitos] = React.useState('null');
+    const [aparecerMensagem, setAparecerMensagem] = React.useState('none');
     const [aparecerCriacaoHabitos, setAparecerCriacaoHabitos] = React.useState('none');
 
     useEffect(() => {
@@ -22,13 +21,13 @@ export default function Conteudo({ token }){
             }
         });
         promise.then(response => {
-            setListaHabitos(response.data);
-            if (response.data.length === 0){
-                setAparecerMensagem('none');
-            }
-            else{
+            if (response.data.length < 1){
                 setAparecerMensagem('block');
             }
+            else{
+                setAparecerMensagem('none');
+            }
+            setListaHabitos(response.data);
         });
     }, []);
     return (
@@ -40,9 +39,43 @@ export default function Conteudo({ token }){
                 </Botao>
             </Titulo>
             <CriarHabito aparecerCriacaoHabitos = {aparecerCriacaoHabitos}>
-                <Form />
+                <Form token = {token} setAparecerCriacaoHabitos = {setAparecerCriacaoHabitos} />
             </CriarHabito>
-            <Habitos habitos = {listaHabitos} aparecer = {aparecerMensagem}/>
+            <Texto >
+                <h5>
+                    Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!
+                </h5>
+            </Texto>
+            <Fundo>
+                <Habito>
+                    <h4>
+                        {listaHabitos[0].name}
+                    </h4>
+                </Habito>
+                <div>
+                    <Botao2>
+                        <h4>D</h4>
+                    </Botao2>
+                    <Botao2>
+                        <h4>S</h4>
+                    </Botao2>
+                    <Botao2>
+                        <h4>T</h4>
+                    </Botao2>
+                    <Botao2>
+                        <h4>Q</h4>
+                    </Botao2>
+                    <Botao2>
+                        <h4>Q</h4>
+                    </Botao2>
+                    <Botao2>
+                        <h4>S</h4>
+                    </Botao2>
+                    <Botao2>
+                        <h4>S</h4>
+                    </Botao2>
+                </div>
+            </Fundo>
         </ConteudoCompleto>
     );
 }
@@ -73,5 +106,36 @@ const Botao = styled.button`
 `;
 const CriarHabito = styled.div`
     display: ${props => props.aparecerCriacaoHabitos};
+    margin-top: 20px;
+`;
+const Habito = styled.div`
+    
+`;
+const DiasCompleto = styled.div`
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    pointer-events: ${props => props.desabilitar};
+    #${props => props.listaHabitos[0].days[0]}{
+        background-color: black;
+    }
+`;
+const Botao2 = styled.button`
+    border-radius: 5px;
+    border: 1px solid #D5D5D5;
+    width: 30px;
+    height: 30px;
+    margin-top: 5px;
+    margin-right: 5px;
+    h4{
+        color: #D5D5D5;
+    }
+`;
+const Texto = styled.div`
+    display: ${props => props.aparecerMensagem};
+`;
+const Fundo = styled.div`
+    background-color: white;
+    padding: 15px;
     margin-top: 20px;
 `;
