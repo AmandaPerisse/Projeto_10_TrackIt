@@ -62,3 +62,15 @@ input::placeholder{
     margin-bottom: 1px;
     margin-left: 4px;
 }
+.selecionado{
+    background-color: #CFCFCF;
+}
+.selecionado h4{
+    color: white !important;
+}
+.selecionado2{
+    background-color: #CFCFCF;
+}
+.selecionado2 h4{
+    color: white !important;
+}

@@ -1,20 +1,16 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import { Link } from "react-router-dom";
 import axios from 'axios';
-
 import Form from './Form';
 
 export default function Conteudo({ token }){
 
-    const [id, setId] = React.useState('');
-    const [nome, setNome] = React.useState('');
-    const [dias, setDias] = React.useState('');
-    const [listaHabitos, setListaHabitos] = React.useState('null');
+    const [listaHabitos, setListaHabitos] = React.useState([]);
     const [aparecerMensagem, setAparecerMensagem] = React.useState('none');
     const [aparecerCriacaoHabitos, setAparecerCriacaoHabitos] = React.useState('none');
 
-    useEffect(() => {
+    const listaRef = useRef();
+    function recarregarPagina(){
         const promise = axios.get('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits', {
             headers: {
                 Authorization: `Bearer ${token}`
@@ -28,7 +24,79 @@ export default function Conteudo({ token }){
                 setAparecerMensagem('none');
             }
             setListaHabitos(response.data);
+            for(let i = 0; i<listaRef.current.children.length;i++){
+                for(let j = 0; j< response.data[i].days.length-1; j++){
+                    listaRef.current.children[i].children[1].children[(response.data[i].days[j])-1].classList.add('selecionado');
+                }
+            }
         });
+    }
+    function excluirHabito(id){
+        while(true){
+            const confirmar = prompt("Deseja realmente excluir esse hábito? (s/n)");
+            if(confirmar === "s"){
+                const promise = axios.delete(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
+                promise.then(response => recarregarPagina());
+                break;
+            }
+            else if(confirmar === "n"){
+                break;
+            }
+            else{
+                alert("Digite 's' ou 'n'!");
+            }
+        }
+    }
+    function Componentes(){
+        if (listaHabitos.length > 0){
+            return (
+                listaHabitos.map(habito => {
+                    return(
+                        <Fundo key={habito.id}>
+                            <Habito>
+                                <h4>
+                                    {habito.name}
+                                </h4>
+                                <button onClick={()=>excluirHabito(habito.id)}>
+                                    <img src = "img/excluir.png" alt = "excluir" />
+                                </button>
+                            </Habito>
+                            <Botoes>
+                                <Botao2>
+                                    <h4>D</h4>
+                                </Botao2>
+                                <Botao2>
+                                    <h4>S</h4>
+                                </Botao2>
+                                <Botao2>
+                                    <h4>T</h4>
+                                </Botao2>
+                                <Botao2>
+                                    <h4>Q</h4>
+                                </Botao2>
+                                <Botao2>
+                                    <h4>Q</h4>
+                                </Botao2>
+                                <Botao2>
+                                    <h4>S</h4>
+                                </Botao2>
+                                <Botao2>
+                                    <h4>S</h4>
+                                </Botao2>
+                            </Botoes>
+                        </Fundo>
+                    )
+                })
+            )
+        }
+        return null;
+    }
+    useEffect(() => {
+        recarregarPagina();
     }, []);
     return (
         <ConteudoCompleto>
@@ -39,43 +107,16 @@ export default function Conteudo({ token }){
                 </Botao>
             </Titulo>
             <CriarHabito aparecerCriacaoHabitos = {aparecerCriacaoHabitos}>
-                <Form token = {token} setAparecerCriacaoHabitos = {setAparecerCriacaoHabitos} />
+                <Form recarregarPagina = {recarregarPagina} token = {token} setAparecerCriacaoHabitos = {setAparecerCriacaoHabitos} />
             </CriarHabito>
-            <Texto >
+            <Texto aparecerMensagem = {aparecerMensagem} >
                 <h5>
                     Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!
                 </h5>
             </Texto>
-            <Fundo>
-                <Habito>
-                    <h4>
-                        {listaHabitos[0].name}
-                    </h4>
-                </Habito>
-                <div>
-                    <Botao2>
-                        <h4>D</h4>
-                    </Botao2>
-                    <Botao2>
-                        <h4>S</h4>
-                    </Botao2>
-                    <Botao2>
-                        <h4>T</h4>
-                    </Botao2>
-                    <Botao2>
-                        <h4>Q</h4>
-                    </Botao2>
-                    <Botao2>
-                        <h4>Q</h4>
-                    </Botao2>
-                    <Botao2>
-                        <h4>S</h4>
-                    </Botao2>
-                    <Botao2>
-                        <h4>S</h4>
-                    </Botao2>
-                </div>
-            </Fundo>
+            <div ref = {listaRef}>
+                <Componentes />
+            </div>
         </ConteudoCompleto>
     );
 }
@@ -109,17 +150,15 @@ const CriarHabito = styled.div`
     margin-top: 20px;
 `;
 const Habito = styled.div`
-    
-`;
-const DiasCompleto = styled.div`
+    margin-bottom: 10px;
     display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    pointer-events: ${props => props.desabilitar};
-    #${props => props.listaHabitos[0].days[0]}{
-        background-color: black;
+    justify-content: space-between;
+    img{
+        width: 13px;
+        height: 15px;
     }
 `;
+const Botoes = styled.div``;
 const Botao2 = styled.button`
     border-radius: 5px;
     border: 1px solid #D5D5D5;
@@ -132,10 +171,12 @@ const Botao2 = styled.button`
     }
 `;
 const Texto = styled.div`
+    margin-top: 10px;
     display: ${props => props.aparecerMensagem};
 `;
 const Fundo = styled.div`
     background-color: white;
     padding: 15px;
     margin-top: 20px;
+    border-radius: 5px;
 `;

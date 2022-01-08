@@ -1,25 +1,34 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router';
 import axios from 'axios';
 
-import Dias from './Dias';
 import BotoesForm from './BotoesForm';
 
-export default function Form({ token, setAparecerCriacaoHabitos }){
+export default function Form({ recarregarPagina, token, setAparecerCriacaoHabitos }){
     const [nome, setNome] = React.useState('');
     const [desabilitado, setDesabilitado] = React.useState('');
     const [aparecer, setAparecer] = React.useState('block');
     const [arrayDias, setArrayDias] = React.useState([]);
     const [desabilitar, setDesabilitar] = React.useState('');
 
-    const [domingo, setDomingo] = React.useState('');
-    const [segunda, setSegunda] = React.useState('');
-    const [terca, setTerca] = React.useState('');
-    const [quarta, setQuarta] = React.useState('');
-    const [quinta, setQuinta] = React.useState('');
-    const [sexta, setSexta] = React.useState('');
-    const [sabado, setSabado] = React.useState('');
+    const listaRef = useRef();
+
+    function adicionarDia(n){
+        let arr = arrayDias;
+        n = parseInt(n);
+        if(arr.includes(n+1)){
+            let indice = arr.indexOf(n+1);
+            arr.splice(indice, 1);
+            setArrayDias(arr);
+            listaRef.current.children[n].classList.remove("selecionado");
+        }
+        else{
+            const novo = [...arr, n+1];
+            novo.sort();
+            setArrayDias(novo);
+            listaRef.current.children[n].classList.add("selecionado");
+        }
+    }
 
     function criandoHabito(e){
         e.preventDefault();
@@ -38,6 +47,13 @@ export default function Form({ token, setAparecerCriacaoHabitos }){
             setDesabilitado('');
             setAparecer('block');
             setDesabilitar('auto');
+            setNome('');
+            setAparecerCriacaoHabitos('none');
+            recarregarPagina();
+            setArrayDias([]);
+            for(let i =0; i<listaRef.current.children.length;i++){
+                listaRef.current.children[i].classList.remove("selecionado");
+            }
         });
         promise.catch(error => {
             alert('Falha na criação do hábito!');
@@ -45,20 +61,39 @@ export default function Form({ token, setAparecerCriacaoHabitos }){
             setAparecer('block');
             setDesabilitar('auto');
             setNome('');
-            setDomingo('white');
-            setSegunda('white');
-            setTerca('white');
-            setQuarta('white');
-            setQuinta('white');
-            setSexta('white');
-            setSabado('white');
+            setArrayDias([]);
+            for(let i =0; i<listaRef.current.children.length;i++){
+                listaRef.current.children[i].classList.remove("selecionado");
+            }
         });
     }
 
     return (
         <FormCompleto onSubmit = {criandoHabito}>
             <input disabled = {desabilitado} type="text" onChange = {(e) => setNome(e.target.value)} value = {nome} placeholder='nome do hábito' />
-            <Dias domingo = {domingo} setDomingo = {setDomingo} segunda = {segunda} setSegunda = {setSegunda} terca = {terca} setTerca = {setTerca} quarta = {quarta} setQuarta = {setQuarta} quinta = {quinta} setQuinta = {setQuinta} sexta = {sexta} setSexta = {setSexta} sabado = {sabado} setSabado = {setSabado} desabilitar = {desabilitar} arrayDias = {arrayDias} setArrayDias = {setArrayDias} />
+            <DiasCompleto ref = {listaRef} desabilitar = {desabilitar} >
+                <Botao type = "button" onClick = {() => adicionarDia("0")}>
+                    <h4>D</h4>
+                </Botao>
+                <Botao type = "button" onClick = {() => adicionarDia("1")}>
+                    <h4>S</h4>
+                </Botao>
+                <Botao type = "button" onClick = {() => adicionarDia("2")}>
+                    <h4>T</h4>
+                </Botao>
+                <Botao type = "button" onClick = {() => adicionarDia("3")}>
+                    <h4>Q</h4>
+                </Botao>
+                <Botao type = "button" onClick = {() => adicionarDia("4")}>
+                    <h4>Q</h4>
+                </Botao>
+                <Botao type = "button" onClick = {() => adicionarDia("5")}>
+                    <h4>S</h4>
+                </Botao>
+                <Botao type = "button" onClick = {() => adicionarDia("6")}>
+                    <h4>S</h4>
+                </Botao>
+            </DiasCompleto>
             <BotoesForm aparecer = {aparecer} desabilitado = {desabilitado} setAparecerCriacaoHabitos = {setAparecerCriacaoHabitos} />
         </FormCompleto>
     );
@@ -67,4 +102,21 @@ const FormCompleto = styled.form`
     background-color: white;
     border-radius: 5px;
     padding: 15px;
+`;
+const DiasCompleto = styled.div`
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    pointer-events: ${props => props.desabilitar};
+`;
+const Botao = styled.button`
+    border-radius: 5px;
+    border: 1px solid #D5D5D5;
+    width: 30px;
+    height: 30px;
+    margin-top: 5px;
+    margin-right: 5px;
+    h4{
+        color: #D5D5D5;
+    }
 `;
