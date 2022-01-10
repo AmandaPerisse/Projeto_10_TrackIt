@@ -99,7 +99,7 @@ export default function Habitos({ token, id, name, image }){
                 </h5>
                 <Componentes ref = {listaRef} />
             </Conteudo>
-            <Rodape />
+            <Rodape percentage = {percentage} />
         </Corpo>
     );
 }
