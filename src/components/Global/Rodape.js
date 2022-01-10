@@ -4,10 +4,8 @@ import { Link } from "react-router-dom";
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 
-export default function Rodape(){
+export default function Rodape(percentage){
 
-
-    const percentage = 0;
     return (
         <RodapeCompleto>
             <Link to = "/habitos"><h4>Hábitos</h4></Link>

@@ -60,17 +60,17 @@ input::placeholder{
 }
 .CircularProgressbar {
     margin-bottom: 1px;
-    margin-left: 4px;
+    margin-left: 5px;
 }
 .selecionado{
-    background-color: #CFCFCF;
+    background-color: #CFCFCF!important;
 }
 .selecionado h4{
     color: white !important;
 }
-.selecionado2{
-    background-color: #CFCFCF;
+.true{
+    background-color: #8FC549 !important;
 }
-.selecionado2 h4{
-    color: white !important;
+.false{
+    background-color: #CFCFCF !important;
 }

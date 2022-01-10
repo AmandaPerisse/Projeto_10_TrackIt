@@ -9,6 +9,7 @@ import Login from './components/TelaLogin/Login';
 import Cadastro from './components/TelaCadastro/Cadastro';
 import Hoje from './components/TelaHoje/Hoje';
 import Habitos from './components/TelaHabitos/Habitos';
+import Historico from './components/Historico';
 
 function App() {
     
@@ -24,6 +25,7 @@ function App() {
                 <Route path="/cadastro" element={<Cadastro />}></Route>
                 <Route path="/hoje" element={<Hoje token = {token} id = {id} name = {name} image = {image}/>}></Route>
                 <Route path="/habitos" element={<Habitos token = {token} id = {id} name = {name} image = {image}/>}></Route>
+                <Route path="/historico" element={<Historico token = {token} id = {id} name = {name} image = {image}/>}></Route>
             </Routes>
 		</BrowserRouter>
     );

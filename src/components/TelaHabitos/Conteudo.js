@@ -25,8 +25,8 @@ export default function Conteudo({ token }){
             }
             setListaHabitos(response.data);
             for(let i = 0; i<listaRef.current.children.length;i++){
-                for(let j = 0; j< response.data[i].days.length-1; j++){
-                    listaRef.current.children[i].children[1].children[(response.data[i].days[j])-1].classList.add('selecionado');
+                for(let j = 0; j< response.data[i].days.length; j++){
+                    listaRef.current.children[i].children[1].children[(response.data[i].days[j])].classList.add('selecionado');
                 }
             }
         });

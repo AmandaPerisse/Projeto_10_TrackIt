@@ -15,18 +15,26 @@ export default function Form({ recarregarPagina, token, setAparecerCriacaoHabito
 
     function adicionarDia(n){
         let arr = arrayDias;
-        n = parseInt(n);
-        if(arr.includes(n+1)){
-            let indice = arr.indexOf(n+1);
-            arr.splice(indice, 1);
+        let dia = parseInt(n);
+        if(arr.length == 0){
+            arr.push(dia);
+            arr.sort();
             setArrayDias(arr);
-            listaRef.current.children[n].classList.remove("selecionado");
+            listaRef.current.children[dia].classList.add("selecionado");
         }
         else{
-            const novo = [...arr, n+1];
-            novo.sort();
-            setArrayDias(novo);
-            listaRef.current.children[n].classList.add("selecionado");
+            if(arr.includes(dia)){
+                let indice = arr.indexOf(dia);
+                arr.splice(indice, 1);
+                setArrayDias(arr);
+                listaRef.current.children[dia].classList.remove("selecionado");
+            }
+            else{
+                arr.push(dia);
+                arr.sort();
+                setArrayDias(arr);
+                listaRef.current.children[dia].classList.add("selecionado");
+            }
         }
     }
 
