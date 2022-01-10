@@ -6,7 +6,7 @@ import Logo from "../Global/Logo";
 import Rodape from "../Global/Rodape";
 import Conteudo from "./Conteudo";
 
-export default function Habitos({ token, id, name, image }){
+export default function Habitos({ percentage, setPercentage, token, id, name, image }){
 
     return (
         <Corpo>
@@ -17,7 +17,7 @@ export default function Habitos({ token, id, name, image }){
                 </Usuario>
             </Cabecalho>
             <Conteudo token = {token}/>
-            <Rodape />
+            <Rodape percentage = {percentage} />
         </Corpo>
     );
 }

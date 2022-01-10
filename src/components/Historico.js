@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import Logo from "./Global/Logo";
 import Rodape from "./Global/Rodape";
 
-export default function Habitos({ token, id, name, image }){
+export default function Habitos({ percentage, setPercentage, token, id, name, image }){
     
 
     return (
@@ -24,7 +24,7 @@ export default function Habitos({ token, id, name, image }){
                     Em breve você poderá ver o histórico dos seus hábitos aqui!
                 </h5>
             </Conteudo>
-            <Rodape />
+            <Rodape percentage = {percentage} />
         </Corpo>
     );
 }

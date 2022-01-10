@@ -6,10 +6,12 @@ import Logo from "../Global/Logo";
 import Rodape from "../Global/Rodape";
 import Data from "./Data";
 
-export default function Habitos({ token, id, name, image }){
+export default function Habitos({ percentage, setPercentage, token, id, name, image }){
         
     const [listaHabitos, setListaHabitos] = React.useState([]);
-    const [percentage, setPercentage] = React.useState(0);
+    const [selecionado1, setSelecionado1] = React.useState('');
+    const [selecionado2, setSelecionado2] = React.useState('');
+
     const listaRef = useRef();
     function recarregarPagina(){
         const promise = axios.get('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today', {
@@ -18,7 +20,7 @@ export default function Habitos({ token, id, name, image }){
             }
         });
         promise.then(response => {
-            setListaHabitos(response.data)
+            setListaHabitos(response.data);
             let qtd = 0;
             for(let i = 0; i< response.data.length; i++){
                 if (response.data[i].done){
@@ -26,6 +28,14 @@ export default function Habitos({ token, id, name, image }){
                 }
             }
             setPercentage((qtd*100)/response.data.length);
+            if(((qtd*100)/response.data.length) == 0){
+                setSelecionado2('none');
+                setSelecionado1('block');
+            }
+            else{
+                setSelecionado1('none');
+                setSelecionado2('block');
+            }
         });
     }
     useEffect(() => {
@@ -35,22 +45,36 @@ export default function Habitos({ token, id, name, image }){
         if (listaHabitos.length > 0){
             return (
                 listaHabitos.map(habito => {
+                    let cor1 = "";
+                    let cor2 = ";"
                     let classe = "";
                     if(habito.done == false){
                         classe = "false";
+                        cor1 = "#000";
                     }else{
                         classe = "true";
+                        cor1 = "#8FC549";
+                    }
+                    if(habito.currentSequence>=habito.highestSequence && habito.highestSequence != 0){
+                        cor2 = "#8FC549";
+                    }
+                    else{
+                        cor2 = "#000";
                     }
                     return(
                         <Fundo key = {habito.id}>
-                            <Texto>
+                            <Texto cor1 = {cor1} >
                                 <h4>
                                     {habito.name}
                                 </h4>
                                 <h6>
-                                    Sequência atual: {habito.currentSequence} dias<br />
-                                    Seu recorde: {habito.highestSequence} dias
+                                    Sequência atual: <span>{habito.currentSequence} dias</span><br />
                                 </h6>
+                                <SequenciaRecord cor2 = {cor2} >
+                                    <h6>
+                                        Seu recorde: <span>{habito.highestSequence} dias</span>
+                                    </h6>
+                                </SequenciaRecord>
                             </Texto>
                             <FundoCheck className = {classe} onClick={() => selecionarHabito(habito.id, habito.done)}>
                                 <img src = "img/check.png" alt = "check" />
@@ -94,9 +118,16 @@ export default function Habitos({ token, id, name, image }){
             </Cabecalho>
             <Conteudo>
                 <Data />
-                <h5>
-                    Nenhum hábito concluído ainda
-                </h5>
+                <Subtitulo1 selecionado1 = {selecionado1} >
+                    <h5>
+                        Nenhum hábito concluído ainda
+                    </h5>
+                </Subtitulo1>
+                <Subtitulo2 selecionado2 = {selecionado2}>
+                    <h5>
+                        {percentage}% dos hábitos concluídos
+                    </h5>
+                </Subtitulo2>
                 <Componentes ref = {listaRef} />
             </Conteudo>
             <Rodape percentage = {percentage} />
@@ -164,5 +195,21 @@ const FundoCheck = styled.button`
 `;
 const Texto = styled.div`
     width: 225px;
+    span{
+        color: ${props => props.cor1};
+    }
+`;
+const SequenciaRecord = styled.div`
+    width: 225px;
+    span{
+        color: ${props => props.cor2};
+    }
+`;
+const Subtitulo1 = styled.div`
+    display: ${props => props.selecionado1};
+`;
+
+const Subtitulo2 = styled.div`
+    display: ${props => props.selecionado2};
 `;
 

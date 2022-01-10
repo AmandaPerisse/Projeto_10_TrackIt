@@ -102,7 +102,7 @@ export default function Conteudo({ token }){
         <ConteudoCompleto>
             <Titulo>
                 <h3>Meus Hábitos</h3>
-                <Botao onClick = {() => setAparecerCriacaoHabitos('block')}>
+                <Botao type = "button" onClick = {() => setAparecerCriacaoHabitos('block')}>
                     <h3>+</h3>
                 </Botao>
             </Titulo>

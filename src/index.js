@@ -17,15 +17,16 @@ function App() {
     const [id, setId] = React.useState('');
     const [name, setName] = React.useState('');
     const [image, setImage] = React.useState('');
+    const [percentage, setPercentage] = React.useState(0);
 
     return (
         <BrowserRouter>
 			<Routes>
                 <Route path="/" element={<Login setToken = {setToken} setId = {setId} setName = {setName} setImage = {setImage} />}></Route>
                 <Route path="/cadastro" element={<Cadastro />}></Route>
-                <Route path="/hoje" element={<Hoje token = {token} id = {id} name = {name} image = {image}/>}></Route>
-                <Route path="/habitos" element={<Habitos token = {token} id = {id} name = {name} image = {image}/>}></Route>
-                <Route path="/historico" element={<Historico token = {token} id = {id} name = {name} image = {image}/>}></Route>
+                <Route path="/hoje" element={<Hoje percentage = {percentage} setPercentage = {setPercentage} token = {token} id = {id} name = {name} image = {image}/>}></Route>
+                <Route path="/habitos" element={<Habitos percentage = {percentage} setPercentage = {setPercentage} token = {token} id = {id} name = {name} image = {image}/>}></Route>
+                <Route path="/historico" element={<Historico percentage = {percentage} setPercentage = {setPercentage} token = {token} id = {id} name = {name} image = {image}/>}></Route>
             </Routes>
 		</BrowserRouter>
     );
